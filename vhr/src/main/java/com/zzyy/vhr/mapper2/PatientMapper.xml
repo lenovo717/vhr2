@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzyy.vhr.mapper2.PatientMapper">
+    <resultMap id="BaseResultMap" type="com.zzyy.vhr.model2.Patient">
+        <id column="patient_id" jdbcType="VARCHAR" property="patient_id" />
+        <id column="times" jdbcType="INTEGER" property="admiss_times" />
+        <id column="patName" jdbcType="VARCHAR" property="patient_name" />
+    </resultMap>
+  <select id="getPatientByPage" resultType="com.zzyy.vhr.model2.Patient" >
+
+     select top ${size} *
+      from (select row_number()
+      over(order by patient_id asc) as rownumber,*
+      from mz_patient_mi) temp_row
+      where rownumber>((${page}-1)*${size})
+
+  </select>
+    <select id="getPatientDiagnosisByPage" resultMap="BaseResultMap" >
+      select top ${size} *
+      from (select row_number()
+      over(order by v.patient_id asc) as rownumber,mi.hic_no,mi.home_tel ,v.patient_id , v.times as times,visit_date,mi.social_no,mi.name  as patName,u.name as dept_name,dbo.FULL_DIAGNOSIS(v.patient_id,v.times) as diagnosis
+      from view_mz_visit_table_all_yanfa v
+                left join view_mz_patient_mi mi on v.patient_id=mi.patient_id
+                left join view_mz_patient_diagnosis d on v.patient_id=d.patient_id and v.times=d.times
+                left join a_employee_mi e on v.doctor_code=e.code
+                left join zd_unit_code u on v.visit_dept=u.code where mi.name='罗子龙'
+      ) temp_row
+      where rownumber>((${page}-1)*${size})
+  </select>
+
+    <select id="getPatientDetail" resultType="com.zzyy.vhr.model2.Patient">
+        select patient_id,name as patient_name,home_tel,hic_no,social_no from view_mz_patient_mi_all where patient_id=#{patient_id,jdbcType=VARCHAR}
+
+
+    </select>
+
+
+
+  <select id="getPatientByProcedure" statementType="CALLABLE" resultType="com.zzyy.vhr.model2.Patient" >
+    {
+       call oa_get_keshi_shouru(
+            #{dept_sn,mode=IN,jdbcType=VARCHAR},
+            #{qry_date,mode=IN,jdbcType=VARCHAR}
+            )
+    }
+
+
+  </select>
+
+    <select id="getPatientVisitDetailByProcedure" statementType="CALLABLE" resultType="com.zzyy.vhr.model2.Patient" >
+    {
+       call cpr_GetPatientDetail_yanfa_new(
+            #{patient_id,mode=IN,jdbcType=VARCHAR},
+            #{times,mode=IN,jdbcType=INTEGER},
+            #{year,mode=IN,jdbcType=INTEGER}
+            )
+    }
+
+
+  </select>
+
+</mapper>

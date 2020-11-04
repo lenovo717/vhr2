@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzyy.vhr.mapper2.PatientMzDetailMapper">
+    <resultMap id="BaseResultMap" type="com.zzyy.vhr.model2.PatientMzDetail">
+
+        <result  column="name" jdbcType="VARCHAR"  property="patient_name" />
+        <result  column="charge_name_external"  jdbcType="VARCHAR"   property="drugname" />
+        <result  column="spe_external"  jdbcType="VARCHAR"   property="specification" />
+        <result  column="dosage_name_external"  jdbcType="VARCHAR"   property="dosage_name" />
+        <result  column="mini_name_external"  jdbcType="VARCHAR"   property="mini_name" />
+        <result  column="pack_name_external"  jdbcType="VARCHAR"   property="pack_name" />
+        <result  column="supply_name_external"  jdbcType="VARCHAR"   property="supply_name" />
+
+    </resultMap>
+
+    <select id="getPatientVisitDetailByProcedure" statementType="CALLABLE" resultMap="BaseResultMap" >
+    {
+       call cpr_GetPatientDetail_yanfa_new(
+            #{patient_id,mode=IN,jdbcType=VARCHAR},
+            #{times,mode=IN,jdbcType=INTEGER},
+            #{year,mode=IN,jdbcType=INTEGER}
+            )
+    }
+     </select>
+
+</mapper>
