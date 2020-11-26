@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzyy.vhr.mapper2.VisitBaseMapper">
+    <resultMap id="BaseResultMap" type="com.zzyy.vhr.model2.VisitBase">
+        <id column="base_id" jdbcType="INTEGER" property="base_id"/>
+        <result column="project_id" jdbcType="VARCHAR" property="project_id"/>
+        <result column="patient_id" jdbcType="VARCHAR" property="patient_id"/>
+        <result column="patient_name" jdbcType="VARCHAR" property="patient_name"/>
+        <result column="base_name" jdbcType="VARCHAR" property="base_name"/>
+        <result column="base_time" jdbcType="VARCHAR" property="base_time"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="week_time" jdbcType="VARCHAR" property="week_time"/>
+        <result column="month_time" jdbcType="VARCHAR" property="month_time"/>
+        <result column="halfyear_time" jdbcType="VARCHAR" property="halfyear_time"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        base_id,project_id,patient_id,patient_name,base_name,base_time,address,
+        week_time,month_time,halfyear_time,creator,create_time,remark
+    </sql>
+
+    <select id="selectByPatientId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from zzyy_hf_visit_base
+        where patient_id = #{patient_id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from zzyy_hf_visit_base
+        where base_id = #{base_id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.zzyy.vhr.model2.VisitBase">
+        insert into zzyy_hf_visit_base (project_id,patient_id,patient_name,base_name,base_time,address,
+        week_time,month_time,halfyear_time,creator,create_time,remark)
+        values (#{project_id,jdbcType=VARCHAR}, #{patient_id,jdbcType=VARCHAR}, #{patient_name,jdbcType=VARCHAR},
+        #{base_name,jdbcType=VARCHAR}, #{base_time,jdbcType=DATE}, #{address,jdbcType=VARCHAR}, #{week_time,jdbcType=DATE},
+         #{month_time,jdbcType=DATE}, #{halfyear_time,jdbcType=DATE},#{creator,jdbcType=VARCHAR},now(),
+        #{remark,jdbcType=VARCHAR})
+    </insert>
+
+
+</mapper>

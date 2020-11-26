@@ -16,7 +16,8 @@ import javax.sql.DataSource;
 @MapperScan(basePackages = "com.zzyy.vhr.mapper2",sqlSessionFactoryRef = "sqlSessionFactory2",
         sqlSessionTemplateRef = "sqlSessionTemplate2")
 public class MybatisConfigTwo {
-    @Resource(name="dsTwo")
+//    @Resource(name="dsTwo")
+    @Resource(name="dsOne")
     DataSource dsTwo;
 
     @Bean

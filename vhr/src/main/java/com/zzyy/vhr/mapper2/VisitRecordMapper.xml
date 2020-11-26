@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzyy.vhr.mapper2.VisitRecordMapper">
+    <resultMap id="BaseResultMap" type="com.zzyy.vhr.model2.VisitRecord">
+        <id column="record_id" jdbcType="VARCHAR" property="record_id"/>
+        <result column="base_id" jdbcType="INTEGER" property="base_id"/>
+        <result column="project_id" jdbcType="VARCHAR" property="project_id"/>
+        <result column="patient_id" jdbcType="VARCHAR" property="patient_id"/>
+        <result column="patient_name" jdbcType="VARCHAR" property="patient_name"/>
+        <result column="record_type" jdbcType="VARCHAR" property="record_type"/>
+        <result column="vist_time" jdbcType="VARCHAR" property="vist_time"/>
+        <result column="sfxs" jdbcType="VARCHAR" property="sfxs"/>
+        <result column="lcjg" jdbcType="VARCHAR" property="lcjg"/>
+        <result column="hzzz" jdbcType="VARCHAR" property="hzzz"/>
+        <result column="shfs" jdbcType="VARCHAR" property="shfs"/>
+        <result column="rcjc" jdbcType="VARCHAR" property="rcjc"/>
+        <result column="tzytg" jdbcType="VARCHAR" property="tzytg"/>
+        <result column="jcjg" jdbcType="VARCHAR" property="jcjg"/>
+        <result column="xdt" jdbcType="VARCHAR" property="xdt"/>
+        <result column="zlyw_a" jdbcType="VARCHAR" property="zlyw_a"/>
+        <result column="zlyw_b" jdbcType="VARCHAR" property="zlyw_b"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="create_time" jdbcType="VARCHAR" property="create_time"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        record_id,base_id,project_id,patient_id,patient_name,record_type,vist_time,sfxs,lcjg,hzzz,shfs,rcjc,tzytg,jcjg,zlyw_a
+    </sql>
+
+    <insert id="insertVisitRecord" parameterType="com.zzyy.vhr.model2.VisitRecord" useGeneratedKeys="true" keyProperty="record_id" keyColumn="record_id">
+        <selectKey keyProperty="record_id" resultType="String" order="BEFORE">
+          select REPLACE(UUID(),"-","")
+        </selectKey>
+        insert into zzyy_hf_visit_record (record_id,base_id,project_id,patient_id,patient_name,record_type,status,
+        sfxs,hzzz,shfs,rcjc,tzytg,creator,create_time,remark)
+        values (#{record_id,jdbcType=VARCHAR},#{base_id,jdbcType=INTEGER},#{project_id,jdbcType=VARCHAR},#{patient_id,jdbcType=VARCHAR},#{patient_name,jdbcType=VARCHAR},#{record_type,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},
+        #{sfxs,jdbcType=VARCHAR},#{hzzz,jdbcType=VARCHAR},#{shfs,jdbcType=VARCHAR},#{rcjc,jdbcType=VARCHAR},#{tzytg,jdbcType=VARCHAR},#{jcjg,jdbcType=VARCHAR},
+        #{creator,jdbcType=VARCHAR},now(), #{remark,jdbcType=VARCHAR})
+
+    </insert>
+
+    <select id="getAllVisitRecord" resultType="com.zzyy.vhr.model2.VisitRecord" >
+        select * from zzyy_hf_visit_record
+    </select>
+
+    <select id="getRecordsByPatientId" resultMap="BaseResultMap" >
+        select * from zzyy_hf_visit_record where patient_id = #{patient_id,jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="getRecordById" resultType="com.zzyy.vhr.model2.VisitRecord" >
+        select * from zzyy_hf_visit_record where record_id = #{record_id,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getRecordsBySql" resultType="com.zzyy.vhr.model2.VisitRecord" >
+        select * from zzyy_hf_visit_record r ${wheresql}
+
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from zzyy_hf_visit_record
+        where record_id = #{record_id,jdbcType=VARCHAR}
+    </delete>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zzyy.vhr.model2.VisitRecord">
+        update zzyy_hf_visit_record
+        <set>
+            <if test="sfxs != null">
+                sfxs = #{sfxs,jdbcType=VARCHAR},
+            </if>
+            <if test="record_type != null">
+                record_type = #{record_type,jdbcType=VARCHAR},
+            </if>
+            <if test="vist_time != null">
+                vist_time = #{vist_time,jdbcType=VARCHAR},
+            </if>
+            <if test="hzzz != null">
+                hzzz = #{hzzz,jdbcType=VARCHAR},
+            </if>
+            <if test="shfs != null">
+                shfs = #{shfs,jdbcType=VARCHAR},
+            </if>
+            <if test="tzytg != null">
+                tzytg = #{tzytg,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where record_id = #{record_id,jdbcType=VARCHAR}
+    </update>
+    <select id="getRecordsByArgs" parameterType="com.zzyy.vhr.model2.VisitRecord">
+        select * from zzyy_hf_visit_record where status = 1
+        <if test="hzxz != null">
+            AND hzxz = #{hzxz}
+        </if>
+        <if test="hzzz != null">
+            AND hzzz like #{hzzz}
+        </if>
+        <if test="shfs != null">
+            AND shfs like #{shfs}
+        </if>
+        <if test="rcjc != null">
+            AND rcjc like #{rcjc}
+        </if>
+    </select>
+
+
+</mapper>
