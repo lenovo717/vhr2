@@ -1,7 +1,8 @@
 package com.zzyy.vhr.service;
 
-import com.zzyy.vhr.dto.Followup;
 import com.zzyy.vhr.mapper2.VisitRecordMapper;
+import com.zzyy.vhr.model.Employee;
+import com.zzyy.vhr.model.RespPageBean;
 import com.zzyy.vhr.model2.VisitRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,18 @@ public class VisitRecordService {
 
     public List<VisitRecord> getRecordsByPatientId(String patient_id){
         return visitRecordMapper.getRecordsByPatientId(patient_id);
+    }
+
+    public RespPageBean getVistRecordByPage(Integer page, Integer size, String keyword) {
+        if(page !=null && size !=null){
+            page = (page-1) *size;
+        }
+        List<VisitRecord> data = visitRecordMapper.getVistRecordByPage(page,size,keyword);
+        Long total = visitRecordMapper.getTotal(keyword);
+        RespPageBean bean = new RespPageBean();
+        bean.setData(data);
+        bean.setTotal(total);
+        return bean;
     }
 
     public VisitRecord getRecordById(String record_id){

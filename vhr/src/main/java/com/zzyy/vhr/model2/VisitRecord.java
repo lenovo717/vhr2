@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Setter
 @Getter
-public class VisitRecord {
+public class VisitRecord extends BaseModel{
     private String record_id;
     private Integer base_id;
     private String project_id;
@@ -36,9 +36,6 @@ public class VisitRecord {
     /*治疗药物b-其它药物*/
     private String zlyw_b;
     private Integer status;
-    private String creator;
-    private Date create_time;
-    private String remark;
 
 
 }

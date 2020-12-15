@@ -13,6 +13,7 @@ public class VisitRecordDTO {
     private String project_id;
     private String patient_id;
     private String patient_name;
+    /*访视类型*/
     private String record_type;
     /*访视时间*/
     private Date vist_time;

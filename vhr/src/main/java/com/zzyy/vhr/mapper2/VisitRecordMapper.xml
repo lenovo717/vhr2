@@ -34,15 +34,30 @@
           select REPLACE(UUID(),"-","")
         </selectKey>
         insert into zzyy_hf_visit_record (record_id,base_id,project_id,patient_id,patient_name,record_type,status,
-        sfxs,hzzz,shfs,rcjc,tzytg,creator,create_time,remark)
+        vist_time,sfxs,hzzz,shfs,rcjc,tzytg,jcjg,creator,create_time,remark)
         values (#{record_id,jdbcType=VARCHAR},#{base_id,jdbcType=INTEGER},#{project_id,jdbcType=VARCHAR},#{patient_id,jdbcType=VARCHAR},#{patient_name,jdbcType=VARCHAR},#{record_type,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},
-        #{sfxs,jdbcType=VARCHAR},#{hzzz,jdbcType=VARCHAR},#{shfs,jdbcType=VARCHAR},#{rcjc,jdbcType=VARCHAR},#{tzytg,jdbcType=VARCHAR},#{jcjg,jdbcType=VARCHAR},
+        #{vist_time,jdbcType=VARCHAR},#{sfxs,jdbcType=VARCHAR},#{hzzz,jdbcType=VARCHAR},#{shfs,jdbcType=VARCHAR},#{rcjc,jdbcType=VARCHAR},#{tzytg,jdbcType=VARCHAR},#{jcjg,jdbcType=VARCHAR},
         #{creator,jdbcType=VARCHAR},now(), #{remark,jdbcType=VARCHAR})
 
     </insert>
 
     <select id="getAllVisitRecord" resultType="com.zzyy.vhr.model2.VisitRecord" >
         select * from zzyy_hf_visit_record
+    </select>
+
+    <select id="getVistRecordByPage" resultType="com.zzyy.vhr.model2.VisitRecord" >
+        select * from zzyy_hf_visit_record r where 1=1
+        <if test="keyword !=null and keyword !=''">
+            and r.patient_id like concat('%',#{keyword},'%') or r.patient_name like concat('%',#{keyword},'%')
+        </if>
+        limit #{page},#{size}
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Long" >
+        select count(*) from zzyy_hf_visit_record r
+        <if test="keyword !=null and keyword !=''">
+            where r.patient_id like concat('%',#{keyword},'%') or r.patient_name like concat('%',#{keyword},'%')
+        </if>
     </select>
 
     <select id="getRecordsByPatientId" resultMap="BaseResultMap" >
@@ -87,6 +102,7 @@
         </set>
         where record_id = #{record_id,jdbcType=VARCHAR}
     </update>
+
     <select id="getRecordsByArgs" parameterType="com.zzyy.vhr.model2.VisitRecord">
         select * from zzyy_hf_visit_record where status = 1
         <if test="hzxz != null">

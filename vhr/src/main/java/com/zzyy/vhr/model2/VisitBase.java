@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class VisitBase {
+public class VisitBase extends BaseModel{
 
     private Integer base_id;
     private String project_id;
@@ -19,8 +19,6 @@ public class VisitBase {
     private Date week_time;
     private Date month_time;
     private Date halfyear_time;
-    private String creator;
-    private Date create_time;
-    private String remark;
+
 
 }

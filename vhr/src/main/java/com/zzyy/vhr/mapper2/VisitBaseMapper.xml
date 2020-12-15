@@ -29,12 +29,34 @@
         where patient_id = #{patient_id,jdbcType=VARCHAR}
     </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getVisitBaseByPage" resultType="com.zzyy.vhr.model2.VisitBase" >
+        select * from zzyy_hf_visit_base b where 1=1
+        <if test="keyword !=null and keyword !=''">
+            and b.patient_id like concat('%',#{keyword},'%') or b.patient_name like concat('%',#{keyword},'%')
+        </if>
+        limit #{page},#{size}
+    </select>
+
+    <select id="getTotal" resultType="java.lang.Long" >
+        select count(*) from zzyy_hf_visit_base b
+        <if test="keyword !=null and keyword !=''">
+            where b.patient_id like concat('%',#{keyword},'%') or b.patient_name like concat('%',#{keyword},'%')
+        </if>
+    </select>
+
+    <select id="getVisitBaseById" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from zzyy_hf_visit_base
+        where base_id = #{base_id,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete from zzyy_hf_visit_base
-        where base_id = #{base_id,jdbcType=INTEGER}
+        where base_id = #{base_id,jdbcType=VARCHAR}
     </delete>
 
-    <insert id="insert" parameterType="com.zzyy.vhr.model2.VisitBase">
+    <insert id="insertVisitBase" parameterType="com.zzyy.vhr.model2.VisitBase">
         insert into zzyy_hf_visit_base (project_id,patient_id,patient_name,base_name,base_time,address,
         week_time,month_time,halfyear_time,creator,create_time,remark)
         values (#{project_id,jdbcType=VARCHAR}, #{patient_id,jdbcType=VARCHAR}, #{patient_name,jdbcType=VARCHAR},
@@ -43,5 +65,47 @@
         #{remark,jdbcType=VARCHAR})
     </insert>
 
+    <update id="updateByPrimaryKeySelective" parameterType="com.zzyy.vhr.model2.VisitBase">
+        update zzyy_hf_visit_base
+        <set>
+            <if test="base_name != null">
+                base_name = #{base_name,jdbcType=VARCHAR},
+            </if>
+            <if test="project_id != null">
+                project_id = #{project_id,jdbcType=VARCHAR},
+            </if>
+            <if test="patient_id != null">
+                patient_id = #{patient_id,jdbcType=VARCHAR},
+            </if>
+            <if test="patient_name != null">
+                patient_name = #{patient_name,jdbcType=VARCHAR},
+            </if>
+            <if test="base_time != null">
+                base_time = #{base_time,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="week_time != null">
+                week_time = #{week_time,jdbcType=VARCHAR},
+            </if>
+            <if test="month_time != null">
+                month_time = #{month_time,jdbcType=VARCHAR},
+            </if>
+            <if test="halfyear_time != null">
+                halfyear_time = #{halfyear_time,jdbcType=VARCHAR},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=VARCHAR},
+            </if>
+            <if test="create_time != null">
+                create_time = #{create_time,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where base_id = #{base_id,jdbcType=VARCHAR}
+    </update>
 
 </mapper>

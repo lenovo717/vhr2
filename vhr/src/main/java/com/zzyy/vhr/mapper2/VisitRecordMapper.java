@@ -1,6 +1,8 @@
 package com.zzyy.vhr.mapper2;
 
+import com.zzyy.vhr.model.Employee;
 import com.zzyy.vhr.model2.VisitRecord;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,5 +23,9 @@ public interface VisitRecordMapper {
     int deleteByPrimaryKey(String record_id);
 
     int updateByPrimaryKeySelective(VisitRecord record);
+
+    List<VisitRecord> getVistRecordByPage(@Param("page") Integer page, @Param("size") Integer size, @Param("keyword") String keyword);
+
+    Long getTotal(String keyword);
 
 }
