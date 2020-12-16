@@ -4,9 +4,9 @@
     <resultMap id="BaseResultMap" type="com.zzyy.vhr.model2.Patient">
         <id column="patient_id" jdbcType="VARCHAR" property="patient_id" />
         <id column="times" jdbcType="INTEGER" property="admiss_times" />
-        <id column="patName" jdbcType="VARCHAR" property="patient_name" />
+        <id column="name" jdbcType="VARCHAR" property="patient_name" />
     </resultMap>
-  <select id="getPatientByPage" resultType="com.zzyy.vhr.model2.Patient" >
+  <select id="getPatientByPage" resultMap="BaseResultMap" >
 
      select top ${size} *
       from (select row_number()
@@ -18,12 +18,13 @@
     <select id="getPatientDiagnosisByPage" resultMap="BaseResultMap" >
       select top ${size} *
       from (select row_number()
-      over(order by v.patient_id asc) as rownumber,mi.hic_no,mi.home_tel ,v.patient_id , v.times as times,visit_date,mi.social_no,mi.name  as patName,u.name as dept_name,dbo.FULL_DIAGNOSIS(v.patient_id,v.times) as diagnosis
+      over(order by v.patient_id asc) as rownumber,mi.hic_no,mi.home_tel ,v.patient_id , v.times as times,visit_date,mi.social_no,mi.name,u.name as dept_name,dbo.FULL_DIAGNOSIS(v.patient_id,v.times) as diagnosis
       from view_mz_visit_table_all_yanfa v
                 left join view_mz_patient_mi mi on v.patient_id=mi.patient_id
                 left join view_mz_patient_diagnosis d on v.patient_id=d.patient_id and v.times=d.times
                 left join a_employee_mi e on v.doctor_code=e.code
-                left join zd_unit_code u on v.visit_dept=u.code where mi.name='罗子龙'
+                left join zd_unit_code u on v.visit_dept=u.code
+                where d.diag_str like '%'+#{keyword,jdbcType=VARCHAR}+'%'
       ) temp_row
       where rownumber>((${page}-1)*${size})
   </select>
