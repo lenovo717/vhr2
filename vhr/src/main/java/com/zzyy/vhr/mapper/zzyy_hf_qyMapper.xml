@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzyy.vhr.mapper.zzyy_hf_qyMapper">
+  <resultMap id="BaseResultMap" type="com.zzyy.vhr.model.zzyy_hf_qy">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="col_name" jdbcType="CHAR" property="colName" />
+    <result column="col_class" jdbcType="CHAR" property="colClass" />
+    <result column="col_type" jdbcType="CHAR" property="colType" />
+    <result column="col_val" jdbcType="VARCHAR" property="colVal" />
+  </resultMap>
+  <select id="getList" resultMap="BaseResultMap" >
+    select * from zzyy_hf_qy
+  </select>
+  <sql id="Base_Column_List">
+    id, col_name, col_class, col_type, col_val
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zzyy_hf_qy
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from zzyy_hf_qy
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zzyy.vhr.model.zzyy_hf_qy">
+    insert into zzyy_hf_qy (id, col_name, col_class, 
+      col_type, col_val)
+    values (#{id,jdbcType=INTEGER}, #{colName,jdbcType=CHAR}, #{colClass,jdbcType=CHAR}, 
+      #{colType,jdbcType=CHAR}, #{colVal,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zzyy.vhr.model.zzyy_hf_qy">
+    insert into zzyy_hf_qy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="colName != null">
+        col_name,
+      </if>
+      <if test="colClass != null">
+        col_class,
+      </if>
+      <if test="colType != null">
+        col_type,
+      </if>
+      <if test="colVal != null">
+        col_val,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="colName != null">
+        #{colName,jdbcType=CHAR},
+      </if>
+      <if test="colClass != null">
+        #{colClass,jdbcType=CHAR},
+      </if>
+      <if test="colType != null">
+        #{colType,jdbcType=CHAR},
+      </if>
+      <if test="colVal != null">
+        #{colVal,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zzyy.vhr.model.zzyy_hf_qy">
+    update zzyy_hf_qy
+    <set>
+      <if test="colName != null">
+        col_name = #{colName,jdbcType=CHAR},
+      </if>
+      <if test="colClass != null">
+        col_class = #{colClass,jdbcType=CHAR},
+      </if>
+      <if test="colType != null">
+        col_type = #{colType,jdbcType=CHAR},
+      </if>
+      <if test="colVal != null">
+        col_val = #{colVal,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zzyy.vhr.model.zzyy_hf_qy">
+    update zzyy_hf_qy
+    set col_name = #{colName,jdbcType=CHAR},
+      col_class = #{colClass,jdbcType=CHAR},
+      col_type = #{colType,jdbcType=CHAR},
+      col_val = #{colVal,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+
+</mapper>

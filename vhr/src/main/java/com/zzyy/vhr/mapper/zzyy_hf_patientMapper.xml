@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzyy.vhr.mapper.zzyy_hf_patientMapper">
+
+  <!--type是类的全限定名，因为mybatis.xml中有别名的设置，所以用别名，短，方便-->
+  <resultMap id="HFPatientMap" type="com.zzyy.vhr.model2.zzyy_hf_patient">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="CHAR" property="name" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="social_no" jdbcType="CHAR" property="socialNo" />
+    <result column="education" jdbcType="CHAR" property="education" />
+    <result column="phone" jdbcType="CHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="link_man" jdbcType="CHAR" property="linkMan" />
+    <result column="link_phone" jdbcType="CHAR" property="linkPhone" />
+
+    <result column="hic_no" jdbcType="CHAR" property="hicNo" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="vocation" jdbcType="CHAR" property="vocation" />
+    <result column="social_no" jdbcType="CHAR" property="socialNo" />
+    <result column="file_id" jdbcType="CHAR" property="fileId" />
+
+
+  </resultMap>
+  <insert id="insert" parameterType="com.zzyy.vhr.model2.zzyy_hf_patient">
+    insert into zzyy_hf_patient ( file_id,name, sex,hic_no, social_no,birthday,vocation,
+      education, phone, address, link_man, link_phone)
+    values (#{fileId,jdbcType=CHAR}, #{name,jdbcType=CHAR}, #{sex,jdbcType=INTEGER},#{hicNo,jdbcType=CHAR}, #{socialNo,jdbcType=CHAR},
+      #{birthday,jdbcType=DATE},#{vocation,jdbcType=CHAR},#{education,jdbcType=CHAR}, #{phone,jdbcType=CHAR}, #{address,jdbcType=VARCHAR},
+      #{linkMan,jdbcType=CHAR}, #{linkPhone,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zzyy.vhr.model2.zzyy_hf_patient">
+    insert into zzyy_hf_patient
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="socialNo != null">
+        social_no,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="linkMan != null">
+        link_man,
+      </if>
+      <if test="linkPhone != null">
+        link_phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="socialNo != null">
+        #{socialNo,jdbcType=CHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=CHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="linkMan != null">
+        #{linkMan,jdbcType=CHAR},
+      </if>
+      <if test="linkPhone != null">
+        #{linkPhone,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="getPatientByPage" parameterType="map" resultMap="HFPatientMap" >
+    <!--
+      select top ${size} *
+      from (select row_number()
+      over(order by patient_id asc) as rownumber,*
+      from zzyy_hf_patient) temp_row
+      where rownumber>((${page}-1)*${size})
+
+    -->
+    select * from zzyy_hf_patient  limit #{pageIndex},#{size}
+
+  </select>
+
+
+  <select id="getPatientFileInfos" resultType="com.zzyy.vhr.model2.zzyy_hf_patient">
+        select * from zzyy_hf_patient where patient_id=#{patient_id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getPatientBySocialNo" resultType="com.zzyy.vhr.model2.zzyy_hf_patient">
+        select * from zzyy_hf_patient where social_no=#{social_no,jdbcType=VARCHAR}
+  </select>
+</mapper>

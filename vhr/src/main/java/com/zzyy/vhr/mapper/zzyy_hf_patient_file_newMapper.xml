@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzyy.vhr.mapper.zzyy_hf_patient_file_newMapper">
+  <resultMap id="BaseResultMap" type="com.zzyy.vhr.model2.zzyy_hf_patient_file_new">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="file_id" jdbcType="CHAR" property="fileId" />
+    <result column="patient_id" jdbcType="CHAR" property="patientId" />
+    <result column="class_name" jdbcType="CHAR" property="className" />
+    <result column="item" jdbcType="CHAR" property="item" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zzyy.vhr.model2.zzyy_hf_patient_file_new">
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
+  </resultMap>
+    <resultMap id="BaseResultMap2" type="com.zzyy.vhr.model2.Patient">
+        <result column="file_id" jdbcType="VARCHAR" property="file_id" />
+    </resultMap>
+  <sql id="Blob_Column_List">
+    remark
+  </sql>
+  <insert id="insert" parameterType="com.zzyy.vhr.model2.zzyy_hf_patient_file_new">
+    insert into zzyy_hf_patient_file_new (file_id, patient_id,
+      class_name, item, value, remark
+      )
+    values ( #{fileId,jdbcType=CHAR}, #{patientId,jdbcType=CHAR},
+      #{className,jdbcType=CHAR}, #{item,jdbcType=CHAR}, #{value,jdbcType=VARCHAR}, #{remark,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zzyy.vhr.model2.zzyy_hf_patient_file_new">
+    insert into zzyy_hf_patient_file_new
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fileId != null">
+        file_id,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="className != null">
+        class_name,
+      </if>
+      <if test="item != null">
+        item,
+      </if>
+      <if test="value != null">
+        value,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="fileId != null">
+        #{fileId,jdbcType=CHAR},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=CHAR},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=CHAR},
+      </if>
+      <if test="item != null">
+        #{item,jdbcType=CHAR},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="getPatientFileInfos"  resultMap="BaseResultMap" >
+
+        select * from zzyy_hf_patient_file_new where patient_id=#{patient_id,jdbcType=VARCHAR}
+
+    </select>
+
+    <select id="getPatientFileByQry"  resultMap="BaseResultMap2" >
+
+        select distinct p.file_id as file_id ,patient_id,name,sex,social_no
+        from zzyy_hf_patient_file_new n
+        left join zzyy_hf_patient p on n.patient_id= p.id where   ${condition}
+
+    </select>
+
+  <delete id="deletePatientFile" >
+    delete from zzyy_hf_patient_file_new
+    where file_id = #{file_id} and class_name=#{class_name}
+  </delete>
+</mapper>
