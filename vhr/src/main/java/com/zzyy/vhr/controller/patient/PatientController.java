@@ -14,18 +14,27 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/emp/adv")
+@RequestMapping("/hispat/hispatbasic")
 public class PatientController {
     @Autowired
     PatientService patientService;
     @Autowired
     PatientMzDetailService patientMzDetailService;
+
     @GetMapping("/")
+    public RespPageBean getHisPatientByPage(@RequestParam(defaultValue = "1") Integer page
+            , @RequestParam(defaultValue = "10 ") Integer size
+            , String keyword)
+    {
+        return patientService.getHisPatientByPage(page,size,keyword);
+    }
+
+    @GetMapping("/diagnosis")
     public RespPageBean getPatientDiagnosisByPage(@RequestParam(defaultValue = "1") Integer page
             , @RequestParam(defaultValue = "10 ") Integer size
             , String keyword)
     {
-        return patientService.getPatientDiagnosisByPage(page,size,keyword);
+        return patientService.getHisPatientDiagnosisByPage(page,size,keyword);
     }
 
     @GetMapping("/patDetail")
