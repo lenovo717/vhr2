@@ -17,6 +17,7 @@ import javax.sql.DataSource;
         sqlSessionTemplateRef = "sqlSessionTemplate2")
 public class MybatisConfigTwo {
     @Resource(name="dsTwo")
+
     //@Resource(name="dsOne")
     DataSource dsTwo;
 
