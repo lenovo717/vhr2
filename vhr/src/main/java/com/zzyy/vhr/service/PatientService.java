@@ -15,7 +15,7 @@ public class PatientService {
     @Autowired
     PatientMapper patientMapper;
 
-    public RespPageBean getPatientByPage(Integer page, Integer size, String keyword) {
+    public RespPageBean getHisPatientByPage(Integer page, Integer size, String keyword) {
         if(page !=null && size !=null){
             page = (page-1) *size;
         }
@@ -27,7 +27,7 @@ public class PatientService {
         return bean;
     }
 
-    public RespPageBean getPatientDiagnosisByPage(Integer page, Integer size, String keyword) {
+    public RespPageBean getHisPatientDiagnosisByPage(Integer page, Integer size, String keyword) {
         if(page !=null && size !=null){
             page = (page-1) *size;
         }
@@ -39,12 +39,12 @@ public class PatientService {
         return bean;
     }
 
-    public List<Patient> getPatientByProcedure(String dept_sn,String qry_date)
+    public List<Patient> getHisPatientByProcedure(String dept_sn,String qry_date)
     {
         return patientMapper.getPatientByProcedure(dept_sn,qry_date);
     }
 
-    public List<Patient> getPatientVisitDetailByProcedure(String patient_id,Integer times,Integer year)
+    public List<Patient> geHistPatientVisitDetailByProcedure(String patient_id,Integer times,Integer year)
     {
         return patientMapper.getPatientVisitDetailByProcedure(patient_id,times,year);
     }
