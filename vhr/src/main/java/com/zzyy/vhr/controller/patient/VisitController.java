@@ -1,20 +1,16 @@
 package com.zzyy.vhr.controller.patient;
 
 import cn.hutool.core.date.DateUtil;
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zzyy.vhr.dto.Followup;
 import com.zzyy.vhr.dto.VisitRecordDTO;
-import com.zzyy.vhr.model.Employee;
 import com.zzyy.vhr.model.Hr;
 import com.zzyy.vhr.model.RespBean;
 import com.zzyy.vhr.model.RespPageBean;
-import com.zzyy.vhr.model2.VisitBase;
-import com.zzyy.vhr.model2.VisitRecord;
+import com.zzyy.vhr.model.VisitBase;
+import com.zzyy.vhr.model.VisitRecord;
 import com.zzyy.vhr.service.VisitBaseService;
 import com.zzyy.vhr.service.VisitRecordService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;

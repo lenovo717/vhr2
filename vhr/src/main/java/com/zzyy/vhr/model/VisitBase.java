@@ -1,4 +1,4 @@
-package com.zzyy.vhr.model2;
+package com.zzyy.vhr.model;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.zzyy.vhr.model2;
+package com.zzyy.vhr.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;

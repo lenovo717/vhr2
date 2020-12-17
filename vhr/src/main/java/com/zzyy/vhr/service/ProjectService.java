@@ -1,12 +1,10 @@
 package com.zzyy.vhr.service;
 
-import com.zzyy.vhr.mapper.RoleMapper;
-import com.zzyy.vhr.mapper2.ProjectMapper;
-import com.zzyy.vhr.model2.Project;
+import com.zzyy.vhr.mapper.ProjectMapper;
+import com.zzyy.vhr.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Array;
 import java.util.*;
 
 @Service

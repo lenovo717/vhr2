@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zzyy.vhr.mapper2.VisitBaseMapper">
-    <resultMap id="BaseResultMap" type="com.zzyy.vhr.model2.VisitBase">
+<mapper namespace="com.zzyy.vhr.mapper.VisitBaseMapper">
+    <resultMap id="BaseResultMap" type="com.zzyy.vhr.model.VisitBase">
         <id column="base_id" jdbcType="INTEGER" property="base_id"/>
         <result column="project_id" jdbcType="VARCHAR" property="project_id"/>
         <result column="patient_id" jdbcType="VARCHAR" property="patient_id"/>
@@ -29,7 +29,7 @@
         where patient_id = #{patient_id,jdbcType=VARCHAR}
     </select>
 
-    <select id="getVisitBaseByPage" resultType="com.zzyy.vhr.model2.VisitBase" >
+    <select id="getVisitBaseByPage" resultType="com.zzyy.vhr.model.VisitBase" >
         select * from zzyy_hf_visit_base b where 1=1
         <if test="keyword !=null and keyword !=''">
             and b.patient_id like concat('%',#{keyword},'%') or b.patient_name like concat('%',#{keyword},'%')
@@ -56,7 +56,7 @@
         where base_id = #{base_id,jdbcType=VARCHAR}
     </delete>
 
-    <insert id="insertVisitBase" parameterType="com.zzyy.vhr.model2.VisitBase">
+    <insert id="insertVisitBase" parameterType="com.zzyy.vhr.model.VisitBase">
         insert into zzyy_hf_visit_base (project_id,patient_id,patient_name,base_name,base_time,address,
         week_time,month_time,halfyear_time,creator,create_time,remark)
         values (#{project_id,jdbcType=VARCHAR}, #{patient_id,jdbcType=VARCHAR}, #{patient_name,jdbcType=VARCHAR},
@@ -65,7 +65,7 @@
         #{remark,jdbcType=VARCHAR})
     </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.zzyy.vhr.model2.VisitBase">
+    <update id="updateByPrimaryKeySelective" parameterType="com.zzyy.vhr.model.VisitBase">
         update zzyy_hf_visit_base
         <set>
             <if test="base_name != null">
