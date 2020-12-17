@@ -1,7 +1,6 @@
-package com.zzyy.vhr.mapper2;
+package com.zzyy.vhr.mapper;
 
-import com.zzyy.vhr.model.Employee;
-import com.zzyy.vhr.model2.VisitRecord;
+import com.zzyy.vhr.model.VisitRecord;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

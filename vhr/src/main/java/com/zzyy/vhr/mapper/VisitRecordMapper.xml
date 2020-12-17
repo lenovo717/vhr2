@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zzyy.vhr.mapper2.VisitRecordMapper">
-    <resultMap id="BaseResultMap" type="com.zzyy.vhr.model2.VisitRecord">
+<mapper namespace="com.zzyy.vhr.mapper.VisitRecordMapper">
+    <resultMap id="BaseResultMap" type="com.zzyy.vhr.model.VisitRecord">
         <id column="record_id" jdbcType="VARCHAR" property="record_id"/>
         <result column="base_id" jdbcType="INTEGER" property="base_id"/>
         <result column="project_id" jdbcType="VARCHAR" property="project_id"/>
@@ -29,7 +29,7 @@
         record_id,base_id,project_id,patient_id,patient_name,record_type,vist_time,sfxs,lcjg,hzzz,shfs,rcjc,tzytg,jcjg,zlyw_a
     </sql>
 
-    <insert id="insertVisitRecord" parameterType="com.zzyy.vhr.model2.VisitRecord" useGeneratedKeys="true" keyProperty="record_id" keyColumn="record_id">
+    <insert id="insertVisitRecord" parameterType="com.zzyy.vhr.model.VisitRecord" useGeneratedKeys="true" keyProperty="record_id" keyColumn="record_id">
         <selectKey keyProperty="record_id" resultType="String" order="BEFORE">
           select REPLACE(UUID(),"-","")
         </selectKey>
@@ -41,11 +41,11 @@
 
     </insert>
 
-    <select id="getAllVisitRecord" resultType="com.zzyy.vhr.model2.VisitRecord" >
+    <select id="getAllVisitRecord" resultType="com.zzyy.vhr.model.VisitRecord" >
         select * from zzyy_hf_visit_record
     </select>
 
-    <select id="getVistRecordByPage" resultType="com.zzyy.vhr.model2.VisitRecord" >
+    <select id="getVistRecordByPage" resultType="com.zzyy.vhr.model.VisitRecord" >
         select * from zzyy_hf_visit_record r where 1=1
         <if test="keyword !=null and keyword !=''">
             and r.patient_id like concat('%',#{keyword},'%') or r.patient_name like concat('%',#{keyword},'%')
@@ -65,11 +65,11 @@
     </select>
 
 
-    <select id="getRecordById" resultType="com.zzyy.vhr.model2.VisitRecord" >
+    <select id="getRecordById" resultType="com.zzyy.vhr.model.VisitRecord" >
         select * from zzyy_hf_visit_record where record_id = #{record_id,jdbcType=VARCHAR}
     </select>
 
-    <select id="getRecordsBySql" resultType="com.zzyy.vhr.model2.VisitRecord" >
+    <select id="getRecordsBySql" resultType="com.zzyy.vhr.model.VisitRecord" >
         select * from zzyy_hf_visit_record r ${wheresql}
 
     </select>
@@ -78,7 +78,7 @@
         delete from zzyy_hf_visit_record
         where record_id = #{record_id,jdbcType=VARCHAR}
     </delete>
-    <update id="updateByPrimaryKeySelective" parameterType="com.zzyy.vhr.model2.VisitRecord">
+    <update id="updateByPrimaryKeySelective" parameterType="com.zzyy.vhr.model.VisitRecord">
         update zzyy_hf_visit_record
         <set>
             <if test="sfxs != null">
@@ -103,7 +103,7 @@
         where record_id = #{record_id,jdbcType=VARCHAR}
     </update>
 
-    <select id="getRecordsByArgs" parameterType="com.zzyy.vhr.model2.VisitRecord">
+    <select id="getRecordsByArgs" parameterType="com.zzyy.vhr.model.VisitRecord">
         select * from zzyy_hf_visit_record where status = 1
         <if test="hzxz != null">
             AND hzxz = #{hzxz}

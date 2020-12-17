@@ -1,9 +1,8 @@
 package com.zzyy.vhr.service;
 
-import com.zzyy.vhr.mapper2.VisitRecordMapper;
-import com.zzyy.vhr.model.Employee;
+import com.zzyy.vhr.mapper.VisitRecordMapper;
 import com.zzyy.vhr.model.RespPageBean;
-import com.zzyy.vhr.model2.VisitRecord;
+import com.zzyy.vhr.model.VisitRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

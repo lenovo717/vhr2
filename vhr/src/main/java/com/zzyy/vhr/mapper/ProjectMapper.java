@@ -1,7 +1,6 @@
-package com.zzyy.vhr.mapper2;
+package com.zzyy.vhr.mapper;
 
-import com.zzyy.vhr.model2.Project;
-import com.zzyy.vhr.model2.VisitRecord;
+import com.zzyy.vhr.model.Project;
 
 import java.util.List;
 
