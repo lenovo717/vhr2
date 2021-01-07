@@ -88,6 +88,72 @@ public class VisitController {
         return RespBean.error("更新失败");
     }
 
+    @PutMapping("/record/shfs/")
+    public RespBean updateShfsRecord(@RequestBody VisitRecordDTO record) throws JsonProcessingException {
+        VisitRecord curRecord = new VisitRecord();
+        curRecord.setRecord_id(record.getRecord_id());
+        String jsonString = mapper.writeValueAsString(record.getShfs());
+        curRecord.setShfs(jsonString);
+        if(recordService.updateRecord(curRecord)==1)
+            return RespBean.ok("更新成功!");
+        return RespBean.error("更新失败");
+    }
+
+    @PutMapping("/record/rcjc/")
+    public RespBean updateRcjcRecord(@RequestBody VisitRecordDTO record) throws JsonProcessingException {
+        VisitRecord curRecord = new VisitRecord();
+        curRecord.setRecord_id(record.getRecord_id());
+        String jsonString = mapper.writeValueAsString(record.getRcjc());
+        curRecord.setRcjc(jsonString);
+        if(recordService.updateRecord(curRecord)==1)
+            return RespBean.ok("更新成功!");
+        return RespBean.error("更新失败");
+    }
+
+    @PutMapping("/record/tzytg/")
+    public RespBean updateTzytgRecord(@RequestBody VisitRecordDTO record) throws JsonProcessingException {
+        VisitRecord curRecord = new VisitRecord();
+        curRecord.setRecord_id(record.getRecord_id());
+        String jsonString = mapper.writeValueAsString(record.getTzytg());
+        curRecord.setTzytg(jsonString);
+        if(recordService.updateRecord(curRecord)==1)
+            return RespBean.ok("更新成功!");
+        return RespBean.error("更新失败");
+    }
+
+    @PutMapping("/record/jcjg/")
+    public RespBean updateJcjgRecord(@RequestBody VisitRecordDTO record) throws JsonProcessingException {
+        VisitRecord curRecord = new VisitRecord();
+        curRecord.setRecord_id(record.getRecord_id());
+        String jsonString = mapper.writeValueAsString(record.getJcjg());
+        curRecord.setJcjg(jsonString);
+        if(recordService.updateRecord(curRecord)==1)
+            return RespBean.ok("更新成功!");
+        return RespBean.error("更新失败");
+    }
+
+    @PutMapping("/record/zlywA/")
+    public RespBean updateZlywARecord(@RequestBody VisitRecordDTO record) throws JsonProcessingException {
+        VisitRecord curRecord = new VisitRecord();
+        curRecord.setRecord_id(record.getRecord_id());
+        String jsonString = mapper.writeValueAsString(record.getZlyw_a());
+        curRecord.setZlyw_a(jsonString);
+        if(recordService.updateRecord(curRecord)==1)
+            return RespBean.ok("更新成功!");
+        return RespBean.error("更新失败");
+    }
+
+    @PutMapping("/record/zlywB/")
+    public RespBean updateZlywBRecord(@RequestBody VisitRecordDTO record) throws JsonProcessingException {
+        VisitRecord curRecord = new VisitRecord();
+        curRecord.setRecord_id(record.getRecord_id());
+        String jsonString = mapper.writeValueAsString(record.getZlyw_b());
+        curRecord.setZlyw_b(jsonString);
+        if(recordService.updateRecord(curRecord)==1)
+            return RespBean.ok("更新成功!");
+        return RespBean.error("更新失败");
+    }
+
     @PutMapping("/record/base/")
     public RespBean updateBaseRecord(@RequestBody VisitRecordDTO record) {
         VisitRecord curRecord = new VisitRecord();
