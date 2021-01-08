@@ -2,6 +2,25 @@ package com.zzyy.vhr.model2;
 
 public class HFPatient {
 
+    private String  patient_id;
+    private String patient_name;
+    private Integer sex;
+    private String social_no;
+    private String education;
+    private String phone;
+    private String address;
+    private String link_man;
+    private String link_phone;
+    private String source;
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
     public String getPatient_id() {
         return patient_id;
     }
@@ -73,15 +92,5 @@ public class HFPatient {
     public void setLink_phone(String link_phone) {
         this.link_phone = link_phone;
     }
-
-    private String  patient_id;
-    private String patient_name;
-    private Integer sex;
-    private String social_no;
-    private String education;
-    private String phone;
-    private String address;
-    private String link_man;
-    private String link_phone;
 
 }
