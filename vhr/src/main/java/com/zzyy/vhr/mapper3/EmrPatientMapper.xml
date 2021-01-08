@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzyy.vhr.mapper3.EmrPatientMapper">
+    <resultMap id="BaseResultMap" type="com.zzyy.vhr.model3.EmrPatient">
+        <id column="PATIENT_ID" jdbcType="VARCHAR" property="patient_id" />
+        <id column="VISIT_ID" jdbcType="INTEGER" property="visit_time" />
+        <id column="NAME" jdbcType="VARCHAR" property="patient_name" />
+        <id column="INP_NO" jdbcType="VARCHAR" property="inpatient_no" />
+        <id column="DATE_OF_BIRTH" jdbcType="DATE" property="birth" />
+        <id column="sex" jdbcType="DATE" property="sex" />
+        <id column="id_no" jdbcType="DATE" property="social_no" />
+        <id column="XIAN_PHOTO" jdbcType="VARCHAR" property="home_tel" />
+        <id column="XIAN_PLACE" jdbcType="VARCHAR" property="address" />
+        <id column="dept_name_out" jdbcType="VARCHAR" property="dis_dept_name" />
+        <id column="dept_name_in" jdbcType="VARCHAR" property="in_dept_name" />
+
+        <id column="ADMISSION_DATE_TIME" jdbcType="DATE" property="dis_date" />
+        <id column="DISCHARGE_DATE_TIME" jdbcType="DATE" property="dis_date" />
+        <id column="zhenduan" jdbcType="VARCHAR" property="diagnosis" />
+    </resultMap>
+  <select id="getEmrPatientByPage" resultMap="BaseResultMap" >
+
+     select top ${size} *
+      from (select row_number()
+      over(order by patient_id asc) as rownumber,*
+      from
+      (
+          select pv.PATIENT_ID,pv.INP_NO,VISIT_ID,NAME,SEX,DATE_OF_BIRTH,XIAN_PHOTO,d.DEPT_NAME,DISCHARGE_DATE_TIME,dbo.FANAL_DIAGNOSIS_DESC(pv.PATIENT_ID,pv.VISIT_ID) as zhenduan
+                from PAT_VISIT pv
+                LEFT JOIN PAT_MASTER_INDEX pmi ON pv.PATIENT_ID=pmi.PATIENT_ID
+                left join DEPT_DICT d on pv.DEPT_DISCHARGE_FROM = d.DEPT_CODE
+                where  DISCHARGE_DATE_TIME is not null
+                and  dbo.FANAL_DIAGNOSIS_DESC(pv.PATIENT_ID,pv.VISIT_ID) like '%'+#{keyword,jdbcType=VARCHAR}+'%'
+       )a
+      ) temp_row
+      where rownumber>((${page}-1)*${size})
+
+  </select>
+
+    <select id="getEmrPatientInfo" resultMap="BaseResultMap">
+    select i.inp_no,NAME,sex,date_of_birth,id_no,XIAN_PLACE,XIAN_PHOTO, v.PATIENT_ID,VISIT_ID,DEPT_ADMISSION_TO,d1.DEPT_NAME as dept_name_in,ADMISSION_DATE_TIME,DEPT_DISCHARGE_FROM,d2.DEPT_NAME as dept_name_out,DISCHARGE_DATE_TIME,v.MAILING_ADDRESS
+    from PAT_VISIT v
+    left join PAT_MASTER_INDEX i on v.PATIENT_ID=i.PATIENT_ID
+    left join DEPT_DICT d1 on v.DEPT_ADMISSION_TO=d1.DEPT_CODE
+    left join DEPT_DICT d2 on v.DEPT_DISCHARGE_FROM=d2.DEPT_CODE
+    where v.PATIENT_ID=#{patient_id,jdbcType=VARCHAR} and VISIT_ID=#{times,jdbcType=INTEGER}
+    </select>
+
+
+
+
+
+
+
+</mapper>
