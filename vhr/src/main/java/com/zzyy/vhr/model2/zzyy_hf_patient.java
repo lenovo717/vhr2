@@ -1,15 +1,39 @@
 package com.zzyy.vhr.model2;
 
+import java.util.Date;
+
 public class zzyy_hf_patient {
     private Integer id;
-
     private String fileId;
-
     private String name;
-
-    private Integer sex;
-
+    private String sex;
     private String hicNo;
+    private String socialNo;
+    private Date birthday;
+    private String vocation;
+    private String education;
+    private String phone;
+    private String address;
+    private String linkMan;
+    private String linkPhone;
+    private Integer result;
+    private String source;
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
 
     public String getHicNo() {
         return hicNo;
@@ -19,11 +43,11 @@ public class zzyy_hf_patient {
         this.hicNo = hicNo;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
@@ -35,26 +59,6 @@ public class zzyy_hf_patient {
         this.vocation = vocation;
     }
 
-    private String socialNo;
-
-    private String birthday;
-
-    private String vocation;
-
-    private String education;
-
-    private String phone;
-
-    private String address;
-
-    private String linkMan;
-
-    private String linkPhone;
-
-
-
-    private Integer result;
-
     public Integer getResult() {
         return result;
     }
@@ -63,13 +67,7 @@ public class zzyy_hf_patient {
         this.result = result;
     }
 
-    public String getFile_id() {
-        return fileId;
-    }
 
-    public void setFile_id(String fileId) {
-        this.fileId = fileId;
-    }
 
     public Integer getId() {
         return id;
@@ -87,11 +85,11 @@ public class zzyy_hf_patient {
         this.name = name;
     }
 
-    public Integer getSex() {
+    public String getSex() {
         return sex;
     }
 
-    public void setSex(Integer sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
