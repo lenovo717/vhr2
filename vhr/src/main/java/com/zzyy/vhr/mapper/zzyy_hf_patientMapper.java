@@ -17,5 +17,7 @@ public interface zzyy_hf_patientMapper {
 
     zzyy_hf_patient getPatientBySocialNo(@Param("social_no") String social_no);
 
+    zzyy_hf_patient getMaxFileId();
+
 
 }

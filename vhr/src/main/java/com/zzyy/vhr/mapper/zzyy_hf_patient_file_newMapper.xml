@@ -12,9 +12,28 @@
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.zzyy.vhr.model2.zzyy_hf_patient_file_new">
     <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
   </resultMap>
-    <resultMap id="BaseResultMap2" type="com.zzyy.vhr.model2.Patient">
-        <result column="file_id" jdbcType="VARCHAR" property="file_id" />
-    </resultMap>
+
+  <resultMap id="HFPatientMap" type="com.zzyy.vhr.model2.zzyy_hf_patient">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="CHAR" property="name" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="social_no" jdbcType="CHAR" property="socialNo" />
+    <result column="education" jdbcType="CHAR" property="education" />
+    <result column="phone" jdbcType="CHAR" property="phone" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="link_man" jdbcType="CHAR" property="linkMan" />
+    <result column="link_phone" jdbcType="CHAR" property="linkPhone" />
+    <result column="source" jdbcType="CHAR" property="source" />
+
+    <result column="hic_no" jdbcType="CHAR" property="hicNo" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="vocation" jdbcType="CHAR" property="vocation" />
+    <result column="social_no" jdbcType="CHAR" property="socialNo" />
+    <result column="file_id" jdbcType="CHAR" property="fileId" />
+
+
+  </resultMap>
+
   <sql id="Blob_Column_List">
     remark
   </sql>
@@ -78,15 +97,19 @@
 
   <select id="getPatientFileInfos"  resultMap="BaseResultMap" >
 
-        select * from zzyy_hf_patient_file_new where patient_id=#{patient_id,jdbcType=VARCHAR}
+        select * from zzyy_hf_patient_file_new where file_id=#{file_id,jdbcType=VARCHAR}
 
     </select>
 
-    <select id="getPatientFileByQry"  resultMap="BaseResultMap2" >
+    <select id="getPatientFileByQry"  resultMap="HFPatientMap" >
 
         select distinct p.file_id as file_id ,patient_id,name,sex,social_no
         from zzyy_hf_patient_file_new n
-        left join zzyy_hf_patient p on n.patient_id= p.id where   ${condition}
+        left join zzyy_hf_patient p on n.file_id= p.file_id
+        <if test="condition != ''">
+          where  ${condition}
+        </if>
+
 
     </select>
 

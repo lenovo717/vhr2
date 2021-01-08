@@ -6,13 +6,14 @@
   <resultMap id="HFPatientMap" type="com.zzyy.vhr.model2.zzyy_hf_patient">
     <result column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="CHAR" property="name" />
-    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
     <result column="social_no" jdbcType="CHAR" property="socialNo" />
     <result column="education" jdbcType="CHAR" property="education" />
     <result column="phone" jdbcType="CHAR" property="phone" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="link_man" jdbcType="CHAR" property="linkMan" />
     <result column="link_phone" jdbcType="CHAR" property="linkPhone" />
+    <result column="source" jdbcType="CHAR" property="source" />
 
     <result column="hic_no" jdbcType="CHAR" property="hicNo" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
@@ -24,10 +25,10 @@
   </resultMap>
   <insert id="insert" parameterType="com.zzyy.vhr.model2.zzyy_hf_patient">
     insert into zzyy_hf_patient ( file_id,name, sex,hic_no, social_no,birthday,vocation,
-      education, phone, address, link_man, link_phone)
-    values (#{fileId,jdbcType=CHAR}, #{name,jdbcType=CHAR}, #{sex,jdbcType=INTEGER},#{hicNo,jdbcType=CHAR}, #{socialNo,jdbcType=CHAR},
+      education, phone, address, link_man, link_phone,source)
+    values (#{fileId,jdbcType=CHAR}, #{name,jdbcType=CHAR}, #{sex,jdbcType=CHAR},#{hicNo,jdbcType=CHAR}, #{socialNo,jdbcType=CHAR},
       #{birthday,jdbcType=DATE},#{vocation,jdbcType=CHAR},#{education,jdbcType=CHAR}, #{phone,jdbcType=CHAR}, #{address,jdbcType=VARCHAR},
-      #{linkMan,jdbcType=CHAR}, #{linkPhone,jdbcType=CHAR})
+      #{linkMan,jdbcType=CHAR}, #{linkPhone,jdbcType=CHAR}, #{source,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zzyy.vhr.model2.zzyy_hf_patient">
     insert into zzyy_hf_patient
@@ -88,6 +89,9 @@
       <if test="linkPhone != null">
         #{linkPhone,jdbcType=CHAR},
       </if>
+      <if test="source != null">
+        #{source,jdbcType=CHAR},
+      </if>
     </trim>
   </insert>
 
@@ -104,9 +108,12 @@
 
   </select>
 
+  <select id="getMaxFileId" resultMap="HFPatientMap">
+    select  * from zzyy_hf_patient order by file_id desc limit 1
+  </select>
 
   <select id="getPatientFileInfos" resultType="com.zzyy.vhr.model2.zzyy_hf_patient">
-        select * from zzyy_hf_patient where patient_id=#{patient_id,jdbcType=VARCHAR}
+        select * from zzyy_hf_patient where file_id=#{file_id,jdbcType=VARCHAR}
   </select>
 
   <select id="getPatientBySocialNo" resultType="com.zzyy.vhr.model2.zzyy_hf_patient">
