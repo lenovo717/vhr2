@@ -3,6 +3,7 @@ package com.zzyy.vhr.controller.patient;
 import com.zzyy.vhr.model.RespBean;
 import com.zzyy.vhr.model2.HFPatientFile;
 import com.zzyy.vhr.model2.Patient;
+import com.zzyy.vhr.model2.zzyy_hf_patient;
 import com.zzyy.vhr.model2.zzyy_hf_patient_file_new;
 import com.zzyy.vhr.service.HFPatientFileService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +30,11 @@ public class HFPatientFileController {
     }
 
     @GetMapping("/patFileInfo")
-    public List<zzyy_hf_patient_file_new>  getPatientFileInfos(String patient_id)
+    public List<zzyy_hf_patient_file_new>  getPatientFileInfos(String file_id)
     {
 
         //获取病人基本信息
-        List<zzyy_hf_patient_file_new> infoList =  patientFileService.getPatientFileInfos(patient_id);
+        List<zzyy_hf_patient_file_new> infoList =  patientFileService.getPatientFileInfos(file_id);
         return infoList;
     }
 
@@ -58,7 +59,7 @@ public class HFPatientFileController {
 
 
     @PostMapping("/patQryFileList")
-    public List<Patient> getPatientFileList(@RequestBody List<String> qryCondition)
+    public List<zzyy_hf_patient> getPatientFileList(@RequestBody List<String> qryCondition)
     {
         //获取病人基本信息
         return   patientFileService.getPatientQryFileList(qryCondition);

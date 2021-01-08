@@ -8,6 +8,10 @@ import com.zzyy.vhr.service.HFPatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @RestController
 @RequestMapping("/pat/patbasic")
 public class HFPatientController {
@@ -38,8 +42,19 @@ public class HFPatientController {
         zzyy_hf_patient p = patientService.getPatientBySocialNo(patient.getSocialNo());
         if(p !=null)
             return RespBean.error("添加失败,该病人已建档!");
-        patientService.addHFPatient(patient);
-        if(patient.getResult()==1)
+        /*
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = null; //初始化date
+            try {
+                date=  sdf.parse(patient.getBirthday());
+                patient.set
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+        * */
+        if(patientService.addHFPatient(patient)>=1)
             return RespBean.ok("添加成功",patient);
         else
             return RespBean.error("添加失败");
