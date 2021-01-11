@@ -24,4 +24,14 @@ public class ProjectController {
         return projService.getProjectsByDoctor(hr.getUsername());
     }
 
+    /**
+     * fwq 20210111
+     * @param authentication
+     * @return
+     */
+    @GetMapping("/getProjectByCurDoctor")
+    public List<Project> getProjectByCurDoctor(Authentication authentication){
+        Hr hr = (Hr) authentication.getPrincipal();
+        return projService.getAllProjectsByDoctor(hr.getUsername());
+    }
 }

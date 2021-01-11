@@ -25,4 +25,17 @@ public class ProjectService {
         }
         return projects;
     }
+
+    /**
+     *
+     * fwq 20210111
+     * @param doctor
+     * @return
+     */
+    public List<Project> getAllProjectsByDoctor(String doctor) {
+
+        List<Project> projects =  projectMapper.getAllProjectsByDoctor(doctor);
+        return projects;
+    }
+
 }

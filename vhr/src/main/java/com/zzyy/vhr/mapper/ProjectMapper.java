@@ -8,4 +8,10 @@ public interface ProjectMapper {
 
     List<Project> getProjectsByDoctor(String doctor);
 
+    /**
+     * fwq 20210111
+     * @param doctor
+     * @return
+     */
+    List<Project> getAllProjectsByDoctor(String doctor);
 }

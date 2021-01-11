@@ -18,6 +18,10 @@
         from zzyy_hf_project
         where doctor like concat('%',#{doctor},'%')
     </select>
+    <!--  fwq 20210111 -->
+    <select id="getAllProjectsByDoctor" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from zzyy_hf_project where  JSON_CONTAINS(doctor,JSON_OBJECT('code', #{file_id,jdbcType=VARCHAR}))
+  </select>
 
 
 </mapper>
