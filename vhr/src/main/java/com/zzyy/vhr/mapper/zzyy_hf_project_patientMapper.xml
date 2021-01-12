@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzyy.vhr.mapper.zzyy_hf_project_patientMapper">
+  <resultMap id="BaseResultMap" type="com.zzyy.vhr.model2.zzyy_hf_project_patient">
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="patient_id" jdbcType="CHAR" property="patientId" />
+    <result column="patient_status" jdbcType="INTEGER" property="patientStatus" />
+  </resultMap>
+  <insert id="insert" parameterType="com.zzyy.vhr.model2.zzyy_hf_project_patient">
+    insert into zzyy_hf_project_patient (id, project_id, patient_id, 
+      patient_status)
+    values (#{id,jdbcType=INTEGER}, #{projectId,jdbcType=INTEGER}, #{patientId,jdbcType=CHAR}, 
+      #{patientStatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zzyy.vhr.model2.zzyy_hf_project_patient">
+    insert into zzyy_hf_project_patient
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="patientStatus != null">
+        patient_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=CHAR},
+      </if>
+      <if test="patientStatus != null">
+        #{patientStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <select id="getPatientByFileId" resultType="com.zzyy.vhr.model2.zzyy_hf_project_patient">
+        select * from zzyy_hf_project_patient where patient_id=#{file_id,jdbcType=VARCHAR}
+  </select>
+</mapper>

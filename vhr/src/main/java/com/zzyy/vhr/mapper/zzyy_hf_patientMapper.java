@@ -15,6 +15,8 @@ public interface zzyy_hf_patientMapper {
     List<zzyy_hf_patient> getPatientByPage(Map<String,Object> qryData);
     zzyy_hf_patient getPatientDetail(@Param("patient_id") String patient_id);
 
+
+    zzyy_hf_patient getPatientFileInfos(@Param("file_id") String file_id);
     zzyy_hf_patient getPatientBySocialNo(@Param("social_no") String social_no);
 
     zzyy_hf_patient getMaxFileId();
