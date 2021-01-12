@@ -4,6 +4,7 @@ import com.zzyy.vhr.mapper2.HFPatientFileMapper;
 import com.zzyy.vhr.mapper.zzyy_hf_patient_file_newMapper;
 import com.zzyy.vhr.model2.HFPatientFile;
 import com.zzyy.vhr.model2.Patient;
+import com.zzyy.vhr.model2.zzyy_hf_patient;
 import com.zzyy.vhr.model2.zzyy_hf_patient_file_new;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,7 @@ public class HFPatientFileService {
         zzyy_hf_patient_file_new file = new zzyy_hf_patient_file_new();
         //批量删除旧记录
         zzyy_hf_patient_file_newMapper.deletePatientFile(fileId,className);
+        int rtn = 0;
         //批量插入新纪录
         for(Map.Entry<String, String> entry : fileMap.entrySet()){
             String mapKey = entry.getKey();
@@ -42,9 +44,9 @@ public class HFPatientFileService {
             file.setClassName(className);
             file.setItem(mapKey);
             file.setValue(mapValue);
-            zzyy_hf_patient_file_newMapper.insert(file);
+            rtn = zzyy_hf_patient_file_newMapper.insert(file);
         }
-         return 0;
+         return rtn;
         //return zzyy_hf_patient_file_newMapper.insert(hfPatientFile);
     }
     public List<HFPatientFile> getPatientFileList(HFPatientFile hfPatientFile) {
@@ -57,11 +59,11 @@ public class HFPatientFileService {
 
     }
 
-    public List<zzyy_hf_patient_file_new> getPatientFileInfos(String patient_id) {
-        return zzyy_hf_patient_file_newMapper.getPatientFileInfos(patient_id);
+    public List<zzyy_hf_patient_file_new> getPatientFileInfos(String file_id) {
+        return zzyy_hf_patient_file_newMapper.getPatientFileInfos(file_id);
     }
 
-    public List<Patient> getPatientQryFileList(List<String> qryCondition) {
+    public List<zzyy_hf_patient> getPatientQryFileList(List<String> qryCondition) {
         String condition = "";
         /*
          for (String j : qryCondition) {
@@ -79,7 +81,7 @@ public class HFPatientFileService {
                 else
                     condition+= " item='"+aa[0]+"' and value"+aa[1]+"'"+aa[2]+"'";
         }
-        List<Patient> list =  zzyy_hf_patient_file_newMapper.getPatientFileByQry(condition);
+        List<zzyy_hf_patient> list =  zzyy_hf_patient_file_newMapper.getPatientFileByQry(condition);
         return list;
     }
 }

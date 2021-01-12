@@ -40,7 +40,23 @@ public class HFPatientService {
     }
 
     public int addHFPatient(zzyy_hf_patient patient) {
-        patient.setSex(1);
+        patient.setSex("男");
+        //获取最大的文件号
+        zzyy_hf_patient p = patientMapper.getMaxFileId();
+
+        if(p.getFileId() != null){
+
+            int intNumber = Integer.parseInt(  p.getFileId().substring(1));
+            intNumber++;
+            String Number =  String.valueOf(intNumber);
+            for (int i = 0; i < 3; i++){
+                 Number = Number.length() < 3 ? "0" + Number : Number;
+            }
+             Number = "F" + Number;
+            patient.setFileId(Number);
+        }else{
+            patient.setFileId("F001");
+        }
 
         return patientMapper.insert(patient);
     }
@@ -49,6 +65,13 @@ public class HFPatientService {
     {
         return patientMapper.getPatientBySocialNo(social_no);
     }
+
+    public zzyy_hf_patient getPatientByFileId(String file_id)
+    {
+        return patientMapper.getPatientFileInfos(file_id);
+    }
+
+
 
 
 }
