@@ -3,8 +3,9 @@
 <mapper namespace="com.zzyy.vhr.mapper.VisitBaseMapper">
     <resultMap id="BaseResultMap" type="com.zzyy.vhr.model.VisitBase">
         <id column="base_id" jdbcType="INTEGER" property="base_id"/>
+        <result column="proj_pati_id" jdbcType="INTEGER" property="proj_pati_id"/>
         <result column="project_id" jdbcType="VARCHAR" property="project_id"/>
-        <result column="patient_id" jdbcType="VARCHAR" property="patient_id"/>
+        <result column="file_id" jdbcType="VARCHAR" property="file_id"/>
         <result column="patient_name" jdbcType="VARCHAR" property="patient_name"/>
         <result column="base_name" jdbcType="VARCHAR" property="base_name"/>
         <result column="base_time" jdbcType="VARCHAR" property="base_time"/>
@@ -12,14 +13,15 @@
         <result column="week_time" jdbcType="VARCHAR" property="week_time"/>
         <result column="month_time" jdbcType="VARCHAR" property="month_time"/>
         <result column="halfyear_time" jdbcType="VARCHAR" property="halfyear_time"/>
+        <result column="belongs" jdbcType="VARCHAR" property="belongs"/>
         <result column="creator" jdbcType="VARCHAR" property="creator"/>
         <result column="create_time" jdbcType="VARCHAR" property="create_time"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        base_id,project_id,patient_id,patient_name,base_name,base_time,address,
-        week_time,month_time,halfyear_time,creator,create_time,remark
+        base_id,project_id,file_id,patient_name,base_name,base_time,address,
+        week_time,month_time,halfyear_time,belongs,creator,create_time,remark
     </sql>
 
     <select id="selectByPatientId" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -32,7 +34,7 @@
     <select id="getVisitBaseByPage" resultType="com.zzyy.vhr.model.VisitBase" >
         select * from zzyy_hf_visit_base b where 1=1
         <if test="keyword !=null and keyword !=''">
-            and b.patient_id like concat('%',#{keyword},'%') or b.patient_name like concat('%',#{keyword},'%')
+            and b.file_id like concat('%',#{keyword},'%') or b.patient_name like concat('%',#{keyword},'%')
         </if>
         limit #{page},#{size}
     </select>
@@ -40,7 +42,45 @@
     <select id="getTotal" resultType="java.lang.Long" >
         select count(*) from zzyy_hf_visit_base b
         <if test="keyword !=null and keyword !=''">
-            where b.patient_id like concat('%',#{keyword},'%') or b.patient_name like concat('%',#{keyword},'%')
+            where b.file_id like concat('%',#{keyword},'%') or b.patient_name like concat('%',#{keyword},'%')
+        </if>
+    </select>
+
+    <select id="getVisitBasesByPage" resultType="com.zzyy.vhr.dto.VisitBaseDTO" >
+        SELECT a.id as proj_pati_id,d.base_id,d.base_name,d.base_time,d.week_time,d.month_time,d.halfyear_time,d.remark
+        ,b.file_id,b.`name` as  patient_name,b.sex,b.social_no,b.birthday, c.id as project_id,c.project_name
+        from zzyy_hf_project_patient as a
+        LEFT JOIN zzyy_hf_patient as b on a.patient_id = b.file_id
+        LEFT JOIN zzyy_hf_project as c on a.project_id = c.id
+        LEFT JOIN zzyy_hf_visit_base as d on a.id = d.proj_pati_id
+        where 1=1
+        <choose>
+            <when test="project_id !=null and project_id !=''">
+                and a.project_id in(#{project_id})
+            </when>
+            <otherwise>
+                and a.project_id in(select id from zzyy_hf_project where  JSON_CONTAINS(doctor,JSON_OBJECT('code',#{doctor_sn})))
+            </otherwise>
+        </choose>
+        <if test="patient_id !=null and patient_id !=''">
+            and a.patient_id = #{patient_id}
+        </if>
+        limit #{page},#{size}
+    </select>
+
+    <select id="getTotals" resultType="java.lang.Long" >
+        select count(*) from zzyy_hf_project_patient a
+        where 1=1
+        <choose>
+            <when test="project_id !=null and project_id !=''">
+                and a.project_id in(#{project_id})
+            </when>
+            <otherwise>
+                and a.project_id in(select id from zzyy_hf_project where  JSON_CONTAINS(doctor,JSON_OBJECT('code',#{doctor_sn})))
+            </otherwise>
+        </choose>
+        <if test="patient_id !=null and patient_id !=''">
+            and a.patient_id = #{patient_id}
         </if>
     </select>
 
@@ -57,11 +97,11 @@
     </delete>
 
     <insert id="insertVisitBase" parameterType="com.zzyy.vhr.model.VisitBase">
-        insert into zzyy_hf_visit_base (project_id,patient_id,patient_name,base_name,base_time,address,
-        week_time,month_time,halfyear_time,creator,create_time,remark)
-        values (#{project_id,jdbcType=VARCHAR}, #{patient_id,jdbcType=VARCHAR}, #{patient_name,jdbcType=VARCHAR},
+        insert into zzyy_hf_visit_base (project_id,file_id,proj_pati_id,patient_name,base_name,base_time,address,
+        week_time,month_time,halfyear_time,belongs,creator,create_time,remark)
+        values (#{project_id,jdbcType=VARCHAR}, #{file_id,jdbcType=VARCHAR},#{proj_pati_id,jdbcType=INTEGER}, #{patient_name,jdbcType=VARCHAR},
         #{base_name,jdbcType=VARCHAR}, #{base_time,jdbcType=DATE}, #{address,jdbcType=VARCHAR}, #{week_time,jdbcType=DATE},
-         #{month_time,jdbcType=DATE}, #{halfyear_time,jdbcType=DATE},#{creator,jdbcType=VARCHAR},now(),
+         #{month_time,jdbcType=DATE}, #{halfyear_time,jdbcType=DATE},#{belongs,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR},now(),
         #{remark,jdbcType=VARCHAR})
     </insert>
 
@@ -74,8 +114,11 @@
             <if test="project_id != null">
                 project_id = #{project_id,jdbcType=VARCHAR},
             </if>
-            <if test="patient_id != null">
-                patient_id = #{patient_id,jdbcType=VARCHAR},
+            <if test="file_id != null">
+                file_id = #{file_id,jdbcType=VARCHAR},
+            </if>
+            <if test="proj_pati_id != null">
+                proj_pati_id = #{proj_pati_id,jdbcType=INTEGER},
             </if>
             <if test="patient_name != null">
                 patient_name = #{patient_name,jdbcType=VARCHAR},
@@ -107,5 +150,9 @@
         </set>
         where base_id = #{base_id,jdbcType=VARCHAR}
     </update>
+
+    <select id="getBaseByDoc" parameterType="map" resultType="java.lang.String" >
+        select base_id from zzyy_hf_visit_base b WHERE b.belongs = #{doctor_sn,jdbcType=VARCHAR}
+    </select>
 
 </mapper>

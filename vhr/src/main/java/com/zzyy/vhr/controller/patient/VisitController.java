@@ -44,6 +44,19 @@ public class VisitController {
         return recordService.getVistRecordByPage(page,size,keyword);
     }
 
+    @GetMapping("/recordsByBase/")
+    public RespPageBean getVistRecordByBase(@RequestParam(defaultValue = "1") Integer page
+            , @RequestParam(defaultValue = "10 ") Integer size
+            , Integer base_id,Authentication authentication)
+    {
+        Hr hr = (Hr) authentication.getPrincipal();
+        // 验证 doc_sn 与 base_id
+        if(!visitBaseService.validateBaseAndDoc(hr.getUsername(), base_id)){
+            return new RespPageBean();
+        }
+        return recordService.getVistRecordByBase(page, size, base_id);
+    }
+
     @GetMapping("/record/{record_id}")
     public VisitRecord getRecordById(@PathVariable("record_id") String record_id){
         VisitRecord record = recordService.getRecordById(record_id);
@@ -197,7 +210,6 @@ public class VisitController {
     public RespBean updateVisitBase(@RequestBody VisitBase record) throws JsonProcessingException {
         VisitBase curRecord = new VisitBase();
         curRecord.setBase_id(record.getBase_id());
-        curRecord.setAddress(record.getAddress());
         curRecord.setProject_id(record.getProject_id());
         curRecord.setBase_name(record.getBase_name());
         curRecord.setBase_time(record.getBase_time());
@@ -214,10 +226,10 @@ public class VisitController {
     public RespBean addVisitBase(@RequestBody VisitBase record,Authentication authentication) throws JsonProcessingException{
         Hr hr = (Hr) authentication.getPrincipal();
         VisitBase curRecord = new VisitBase();
-        curRecord.setPatient_id(record.getPatient_id());
+        curRecord.setProj_pati_id(record.getProj_pati_id());
+        curRecord.setFile_id(record.getFile_id());
         // TODO: 通过患者信息查询患者姓名
-        curRecord.setPatient_name("test");
-        curRecord.setAddress(record.getAddress());
+        curRecord.setPatient_name(record.getPatient_name());
         curRecord.setProject_id(record.getProject_id());
         curRecord.setBase_name(record.getBase_name());
         curRecord.setBase_time(record.getBase_time());

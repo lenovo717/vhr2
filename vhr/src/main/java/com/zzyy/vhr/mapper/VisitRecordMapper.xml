@@ -45,6 +45,20 @@
         select * from zzyy_hf_visit_record
     </select>
 
+    <select id="getVistRecordByBase" resultType="com.zzyy.vhr.model.VisitRecord" >
+        select * from zzyy_hf_visit_record r where 1=1
+        <if test="base_id !=null and base_id !=''">
+            and r.base_id = #{base_id}
+        </if>
+        limit #{page},#{size}
+    </select>
+    <select id="getTotalByBase" resultType="java.lang.Long" >
+        select count(*) from zzyy_hf_visit_record r
+        <if test="base_id !=null and base_id !=''">
+            where r.base_id = #{base_id}
+        </if>
+    </select>
+
     <select id="getVistRecordByPage" resultType="com.zzyy.vhr.model.VisitRecord" >
         select * from zzyy_hf_visit_record r where 1=1
         <if test="keyword !=null and keyword !=''">
@@ -78,6 +92,7 @@
         delete from zzyy_hf_visit_record
         where record_id = #{record_id,jdbcType=VARCHAR}
     </delete>
+
     <update id="updateByPrimaryKeySelective" parameterType="com.zzyy.vhr.model.VisitRecord">
         update zzyy_hf_visit_record
         <set>
@@ -118,6 +133,8 @@
             AND rcjc like #{rcjc}
         </if>
     </select>
+
+
 
 
 </mapper>

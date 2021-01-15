@@ -27,4 +27,8 @@ public interface VisitRecordMapper {
 
     Long getTotal(String keyword);
 
+    List<VisitRecord> getVistRecordByBase(@Param("page") Integer page, @Param("size") Integer size, @Param("base_id") Integer base_id);
+
+    Long getTotalByBase(Integer base_id);
+
 }

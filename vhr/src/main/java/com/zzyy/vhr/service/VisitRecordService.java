@@ -54,4 +54,18 @@ public class VisitRecordService {
         return visitRecordMapper.getRecordsBySql(message);
     }
 
+    public RespPageBean getVistRecordByBase(Integer page, Integer size, Integer base_id) {
+        if(page !=null && size !=null){
+            page = (page-1) *size;
+        }
+        List<VisitRecord> data = visitRecordMapper.getVistRecordByBase(page,size,base_id);
+        Long total = visitRecordMapper.getTotalByBase(base_id);
+        RespPageBean bean = new RespPageBean();
+        bean.setData(data);
+        bean.setTotal(total);
+        return bean;
+    }
+
+
+
 }

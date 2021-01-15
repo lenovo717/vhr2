@@ -71,7 +71,9 @@ public class HFPatientService {
         return patientMapper.getPatientFileInfos(file_id);
     }
 
-
+    public List<zzyy_hf_patient> getPatientsInProj(){
+        return patientMapper.getPatientsInProj();
+    }
 
 
 }

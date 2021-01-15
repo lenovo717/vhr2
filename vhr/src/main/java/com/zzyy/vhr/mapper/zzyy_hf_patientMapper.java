@@ -21,5 +21,6 @@ public interface zzyy_hf_patientMapper {
 
     zzyy_hf_patient getMaxFileId();
 
+    List<zzyy_hf_patient> getPatientsInProj();
 
 }

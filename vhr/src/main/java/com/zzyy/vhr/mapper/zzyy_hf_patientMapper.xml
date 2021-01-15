@@ -119,4 +119,10 @@
   <select id="getPatientBySocialNo" resultType="com.zzyy.vhr.model2.zzyy_hf_patient">
         select * from zzyy_hf_patient where social_no=#{social_no,jdbcType=VARCHAR}
   </select>
+
+  <select id="getPatientsInProj" resultMap="HFPatientMap" resultType="com.zzyy.vhr.model2.zzyy_hf_patient">
+    select * from zzyy_hf_patient as a
+    where a.file_id in(SELECT DISTINCT patient_id from zzyy_hf_project_patient)
+  </select>
+
 </mapper>
